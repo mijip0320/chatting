@@ -31,8 +31,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${pretendard.variable} antialiased`}>
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={`${pretendard.variable} antialiased`}
+        suppressHydrationWarning
+      >
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
