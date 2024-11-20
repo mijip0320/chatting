@@ -3,12 +3,14 @@ import React from "react";
 import { Button } from "./ui/button";
 import { supabaseBrowser } from "@/lib/supabase/browser";
 import { useRouter } from "next/navigation";
+import { User } from "@supabase/supabase-js";
 
-export default function ChatHeader() {
+export default function ChatHeader({ user }: { user: User | undefined }) {
   const router = useRouter();
 
   const handleLoginWithGithub = () => {
     const supabase = supabaseBrowser();
+
     supabase.auth.signInWithOAuth({
       provider: "github",
       options: {
@@ -34,7 +36,11 @@ export default function ChatHeader() {
           </div>
         </div>
 
-        <Button onClick={handleLoginWithGithub}>Login</Button>
+        {user ? (
+          <Button onClick={handleLogout}>Logout</Button>
+        ) : (
+          <Button onClick={handleLoginWithGithub}>Login</Button>
+        )}
       </div>
     </div>
   );
