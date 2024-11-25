@@ -59,6 +59,7 @@ const MessageMenu = ({ message }: { message: IMessage }) => {
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() => {
+            //수정/삭제 action 정의
             document.getElementById("trigger-edit")?.click();
             setActionMessage(message);
           }}
