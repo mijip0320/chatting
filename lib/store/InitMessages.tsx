@@ -2,7 +2,6 @@
 import React, { useEffect, useRef } from "react";
 
 import { IMessage, useMessage } from "./messages";
-// import { LIMIT_MESSAGE } from "../constant";
 
 export default function InitMessages({ messages }: { messages: IMessage[] }) {
   const initState = useRef(false);

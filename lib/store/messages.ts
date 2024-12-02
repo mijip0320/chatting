@@ -31,6 +31,7 @@ export const useMessage = create<MessageState>()((set) => ({
   addMessage: (newMessages) =>
     set((state) => ({
       messages: [...state.messages, newMessages],
+      //optimisticIds: [...state.optimisticIds, newMessages.id],
     })),
   optimisticIds: [],
   setActionMessage: (message) => set(() => ({ actionMessage: message })),
@@ -57,4 +58,5 @@ export const useMessage = create<MessageState>()((set) => ({
 
   setOptimisticIds: (id: string) =>
     set((state) => ({ optimisticIds: [...state.optimisticIds, id] })),
+  ////메세지 추가 시 응답값도 오기때문에 두번 입력되는 현상 발생, 방지하기 위해 고유한 아이디값 부여
 }));

@@ -1,11 +1,10 @@
 "use client";
 import { IMessage, useMessage } from "@/lib/store/messages";
-import React, { useEffect, useReducer, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import Message from "./Message";
 import { DeleteAlert, EditAlert } from "./MessageActions";
 import { supabaseBrowser } from "@/lib/supabase/browser";
 import { toast } from "sonner";
-import { Container } from "postcss";
 
 export default function ListMessages() {
   const scrollRef = useRef() as React.MutableRefObject<HTMLDivElement>;
@@ -19,6 +18,9 @@ export default function ListMessages() {
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "messages" },
         async (payload) => {
+          //optimistic update개념(사용자 경험 향상) :
+          //-요청을 보내는 것과 동시에 결과를 예측하고, 예측한 결과를 UI에 반영하는 것
+          //- 좋아요나 장바구니 담기 기능은 사용자 입장에서 바로 기능이 수행되는것을 기대함
           if (!optimisticIds.includes(payload.new.id)) {
             const { error, data } = await supabase
               .from("users")
