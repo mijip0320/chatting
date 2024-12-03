@@ -4,6 +4,7 @@ import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { Database } from "../types/supabase";
 
+//타입 안정성을 유지하며 Supabase 데이터베이스와의 상호작용을 진행
 export async function supabaseServer() {
   const cookieStore = await cookies();
 

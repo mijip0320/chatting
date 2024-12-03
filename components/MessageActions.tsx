@@ -18,16 +18,15 @@ import { toast } from "sonner";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { useRef } from "react";
 
+//삭제 시 보내주는 alert action
 export function DeleteAlert() {
   const actionMessage = useMessage((state) => state.actionMessage);
   const optimisticDeleteMessage = useMessage(
@@ -71,6 +70,7 @@ export function DeleteAlert() {
   );
 }
 
+//수정 시 보내주는 alert action
 export function EditAlert() {
   const actionMessage = useMessage((state) => state.actionMessage);
 

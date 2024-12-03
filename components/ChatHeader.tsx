@@ -9,6 +9,7 @@ export default function ChatHeader({ user }: { user: User | undefined }) {
   const router = useRouter();
 
   const handleLoginWithGithub = () => {
+    //로그인 시 깃헙 계정과 연결
     const supabase = supabaseBrowser();
 
     supabase.auth.signInWithOAuth({
@@ -19,6 +20,7 @@ export default function ChatHeader({ user }: { user: User | undefined }) {
     });
   };
 
+  //로그아웃
   const handleLogout = async () => {
     const supabase = supabaseBrowser();
     await supabase.auth.signOut();

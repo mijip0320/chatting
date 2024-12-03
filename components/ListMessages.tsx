@@ -8,6 +8,7 @@ import { toast } from "sonner";
 
 export default function ListMessages() {
   const scrollRef = useRef() as React.MutableRefObject<HTMLDivElement>;
+  //데이터베이스와 상호작용할 액션들
   const {
     messages,
     addMessage,

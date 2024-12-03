@@ -14,6 +14,7 @@ export default function ChatInput() {
 
   const supabase = supabaseBrowser();
 
+  //메세지 보내기
   const handleSendMessage = async (text: string) => {
     if (text.trim()) {
       const newMessage = {
