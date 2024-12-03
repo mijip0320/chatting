@@ -8,7 +8,13 @@ import { toast } from "sonner";
 
 export default function ListMessages() {
   const scrollRef = useRef() as React.MutableRefObject<HTMLDivElement>;
-  const { messages, addMessage, optimisticIds } = useMessage((state) => state);
+  const {
+    messages,
+    addMessage,
+    optimisticIds,
+    optimisticDeleteMessage,
+    optimisticUpdateMessage,
+  } = useMessage((state) => state);
   const supabase = supabaseBrowser();
 
   useEffect(() => {
@@ -39,6 +45,22 @@ export default function ListMessages() {
               addMessage(newMessage as IMessage);
             }
           }
+        }
+      )
+      .on(
+        //삭제 시 실시간으로 업데이트
+        "postgres_changes",
+        { event: "DELETE", schema: "public", table: "messages" },
+        (payload) => {
+          optimisticDeleteMessage(payload.old.id);
+        }
+      )
+      .on(
+        //업데이트 시 실시간으로 업데이트
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "messages" },
+        (payload) => {
+          optimisticUpdateMessage(payload.new as IMessage);
         }
       )
       .subscribe();
