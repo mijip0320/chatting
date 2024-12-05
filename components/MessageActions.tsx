@@ -35,6 +35,7 @@ export function DeleteAlert() {
   const handleDeleteMessage = async () => {
     const supabase = supabaseBrowser();
     optimisticDeleteMessage(actionMessage?.id!);
+
     const { error } = await supabase
       .from("messages")
       .delete()
@@ -43,9 +44,10 @@ export function DeleteAlert() {
     if (error) {
       toast.error(error.message);
     } else {
-      toast.success("Successfully deleted");
+      toast.success("Successfully delete a message");
     }
   };
+
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -61,7 +63,7 @@ export function DeleteAlert() {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={() => handleDeleteMessage()}>
+          <AlertDialogAction onClick={handleDeleteMessage}>
             Continue
           </AlertDialogAction>
         </AlertDialogFooter>
@@ -73,7 +75,6 @@ export function DeleteAlert() {
 //수정 시 보내주는 alert action
 export function EditAlert() {
   const actionMessage = useMessage((state) => state.actionMessage);
-
   const optimisticUpdateMessage = useMessage(
     (state) => state.optimisticUpdateMessage
   );
@@ -93,14 +94,12 @@ export function EditAlert() {
         .from("messages")
         .update({ text, is_edit: true })
         .eq("id", actionMessage?.id!);
-
       if (error) {
         toast.error(error.message);
       } else {
-        toast.success("Successfully updated!!");
-
-        document.getElementById("trigger-edit")?.click();
+        toast.success("Update Successfully");
       }
+      document.getElementById("trigger-edit")?.click();
     } else {
       document.getElementById("trigger-edit")?.click();
       document.getElementById("trigger-delete")?.click();
@@ -116,9 +115,9 @@ export function EditAlert() {
         <DialogHeader>
           <DialogTitle>Edit Message</DialogTitle>
         </DialogHeader>
-        <Input ref={inputRef} defaultValue={actionMessage?.text} />
+        <Input defaultValue={actionMessage?.text} ref={inputRef} />
         <DialogFooter>
-          <Button type="submit" onClick={() => handleEdit()}>
+          <Button type="submit" onClick={handleEdit}>
             Save changes
           </Button>
         </DialogFooter>

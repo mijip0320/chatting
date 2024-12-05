@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from "uuid";
 import { useUser } from "@/lib/store/user";
 import { IMessage, useMessage } from "@/lib/store/messages";
 
+//메세지 입력창
 export default function ChatInput() {
   const user = useUser((state) => state.user);
   const addMessage = useMessage((state) => state.addMessage);

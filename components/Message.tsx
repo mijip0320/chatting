@@ -66,6 +66,7 @@ const MessageMenu = ({ message }: { message: IMessage }) => {
         >
           Edit
         </DropdownMenuItem>
+
         <DropdownMenuItem
           onClick={() => {
             document.getElementById("trigger-delete")?.click();
