@@ -10,6 +10,7 @@ import { ArrowDown } from "lucide-react";
 export default function ListMessages() {
   const scrollRef = useRef() as React.MutableRefObject<HTMLDivElement>;
   const [userScroll, setUserScroll] = useState(false);
+  const [notification, setNotification] = useState(0);
   //데이터베이스와 상호작용할 액션들
   const {
     messages,
@@ -48,6 +49,13 @@ export default function ListMessages() {
               addMessage(newMessage as IMessage);
             }
           }
+          const scrollContainer = scrollRef.current;
+          if (
+            scrollContainer.scrollTop <
+            scrollContainer.scrollHeight - scrollContainer.clientHeight - 10
+          ) {
+            setNotification((current) => current + 1);
+          }
         }
       )
       .on(
@@ -84,12 +92,24 @@ export default function ListMessages() {
 
   const handleOnScroll = () => {
     const scrollContainer = scrollRef.current;
-    if (scrollContainer) {
+    if (scrollContainer && !userScroll) {
       const isScroll =
         scrollContainer.scrollTop <
         scrollContainer.scrollHeight - scrollContainer.clientHeight - 10;
       setUserScroll(isScroll);
+      //맨 아래 위치해있다면
+      if (
+        scrollContainer.scrollTop ===
+        scrollContainer.scrollHeight - scrollContainer.clientHeight
+      ) {
+        setNotification(0);
+      }
     }
+  };
+
+  const scrollDown = () => {
+    setNotification(0);
+    scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   };
 
   return (
@@ -105,15 +125,22 @@ export default function ListMessages() {
         })}
       </div>
       {userScroll && (
-        <div className="absolute bottom-20 right-1/2">
-          <div
-            className="w-10 h-10 bg-blue-500 rounded-full justify-center items-center flex mx-auto border cursor-pointer hover:scale-110 transition-all"
-            onClick={() => {
-              scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-            }}
-          >
-            <ArrowDown />
-          </div>
+        <div className="absolute bottom-20 w-full">
+          {notification ? (
+            <div
+              onClick={scrollDown}
+              className="w-36 mx-auto bg-indigo-500 p-1 rounded-md cursor-pointer"
+            >
+              <h1>New {notification} messages</h1>
+            </div>
+          ) : (
+            <div
+              className="w-10 h-10 bg-blue-500 rounded-full justify-center items-center flex mx-auto border cursor-pointer hover:scale-110 transition-all"
+              onClick={scrollDown}
+            >
+              <ArrowDown />
+            </div>
+          )}
         </div>
       )}
 
