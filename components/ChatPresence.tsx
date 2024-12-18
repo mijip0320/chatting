@@ -29,6 +29,7 @@ export default function ChatPresence() {
         }
       });
   }, [user]);
+
   if (!user) {
     return <div className="h-3 w-1"></div>;
   }

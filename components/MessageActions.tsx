@@ -34,17 +34,19 @@ export function DeleteAlert() {
   );
   const handleDeleteMessage = async () => {
     const supabase = supabaseBrowser();
-    optimisticDeleteMessage(actionMessage?.id!);
+    if (actionMessage) {
+      optimisticDeleteMessage(actionMessage.id);
 
-    const { error } = await supabase
-      .from("messages")
-      .delete()
-      .eq("id", actionMessage?.id!);
+      const { error } = await supabase
+        .from("messages")
+        .delete()
+        .eq("id", actionMessage.id);
 
-    if (error) {
-      toast.error(error.message);
-    } else {
-      toast.success("Successfully delete a message");
+      if (error) {
+        toast.error(error.message);
+      } else {
+        toast.success("Successfully delete a message");
+      }
     }
   };
 
@@ -84,7 +86,7 @@ export function EditAlert() {
   const handleEdit = async () => {
     const supabase = supabaseBrowser();
     const text = inputRef.current.value.trim();
-    if (text) {
+    if (text && actionMessage) {
       optimisticUpdateMessage({
         ...actionMessage,
         text,
@@ -93,7 +95,7 @@ export function EditAlert() {
       const { error } = await supabase
         .from("messages")
         .update({ text, is_edit: true })
-        .eq("id", actionMessage?.id!);
+        .eq("id", actionMessage?.id);
       if (error) {
         toast.error(error.message);
       } else {
